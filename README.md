@@ -1,4 +1,4 @@
-# FinShield AI 🛡️
+# FinProctector 🛡️
 
 FinShield AI is an intelligent, real-time financial fraud detection platform. It uses a modern tech stack (FastAPI + React) combined with machine learning (XGBoost) and Large Language Models (Google Gemini) to detect, explain, and mitigate fraudulent transactions.
 
