@@ -128,6 +128,7 @@ class SignupRequest(BaseModel):
     full_name: str
     email: str
     password: str
+    initial_balance: Optional[float] = 54320.50
 
 
 class LoginRequest(BaseModel):
@@ -146,6 +147,7 @@ class UserResponse(BaseModel):
     email: str
     full_name: str
     role: str
+    account_balance: float
 
     class Config:
         from_attributes = True

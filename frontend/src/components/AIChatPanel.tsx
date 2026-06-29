@@ -85,7 +85,7 @@ export default function AIChatPanel({ isOpen, onClose }: { isOpen: boolean; onCl
     return text
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/`(.*?)`/g, '<code class="px-1 py-0.5 rounded bg-gray-100 text-xs font-mono">$1</code>')
+      .replace(/`(.*?)`/g, '<code class="px-1 py-0.5 rounded bg-[var(--color-surface-muted)] text-xs font-mono">$1</code>')
       .replace(/^- (.*)/gm, '<li class="ml-4 list-disc text-sm">$1</li>')
       .replace(/^### (.*)/gm, '<h4 class="font-bold text-sm mt-3 mb-1">$1</h4>')
       .replace(/^## (.*)/gm, '<h3 class="font-bold text-base mt-3 mb-1">$1</h3>')
@@ -100,21 +100,21 @@ export default function AIChatPanel({ isOpen, onClose }: { isOpen: boolean; onCl
       <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={onClose} />
 
       {/* Panel */}
-      <div className="relative w-full max-w-lg bg-white shadow-2xl flex flex-col animate-slide-in" style={{ animationDuration: '0.25s' }}>
+      <div className="relative w-full max-w-lg bg-[var(--color-surface)] shadow-2xl flex flex-col animate-slide-in" style={{ animationDuration: '0.25s' }}>
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 bg-gradient-to-r from-indigo-600 to-blue-600 text-white">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--color-border)] bg-gradient-to-r from-indigo-600 to-blue-600 text-white">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-[var(--color-surface)]/20 backdrop-blur-sm flex items-center justify-center">
               <BrainCircuit size={20} />
             </div>
             <div>
-              <h2 className="text-sm font-bold">FinShield AI Analyst</h2>
+              <h2 className="text-sm font-bold">FinProtector Analyst</h2>
               <p className="text-[11px] text-blue-100">Powered by Gemini · RAG-enabled</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-white/20 transition-colors"
+            className="p-1.5 rounded-lg hover:bg-[var(--color-surface)]/20 transition-colors"
           >
             <X size={18} />
           </button>
@@ -127,8 +127,8 @@ export default function AIChatPanel({ isOpen, onClose }: { isOpen: boolean; onCl
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-100 to-blue-100 flex items-center justify-center mb-4">
                 <Sparkles size={28} className="text-indigo-600" />
               </div>
-              <h3 className="text-base font-bold text-gray-900 mb-1">Ask me anything about fraud</h3>
-              <p className="text-xs text-gray-500 max-w-xs mb-6">
+              <h3 className="text-base font-bold text-[var(--color-text-primary)] mb-1">Ask me anything about fraud</h3>
+              <p className="text-xs text-[var(--color-text-secondary)] max-w-xs mb-6">
                 I analyze your real transaction data using RAG to give accurate, data-backed insights.
               </p>
 
@@ -138,9 +138,9 @@ export default function AIChatPanel({ isOpen, onClose }: { isOpen: boolean; onCl
                   <button
                     key={i}
                     onClick={() => sendMessage(s.text)}
-                    className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 hover:bg-indigo-50 hover:border-indigo-200 text-left text-xs text-gray-700 font-medium transition-all group"
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] hover:bg-indigo-50 hover:border-indigo-200 text-left text-xs text-[var(--color-text-primary)] font-medium transition-all group"
                   >
-                    <span className="text-gray-400 group-hover:text-indigo-500 transition-colors">
+                    <span className="text-[var(--color-text-secondary)] group-hover:text-indigo-500 transition-colors">
                       {ICON_MAP[s.icon] || <MessageSquare size={14} />}
                     </span>
                     {s.text}
@@ -159,7 +159,7 @@ export default function AIChatPanel({ isOpen, onClose }: { isOpen: boolean; onCl
                 className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                   msg.role === 'user'
                     ? 'bg-indigo-600 text-white rounded-br-sm'
-                    : 'bg-gray-100 text-gray-800 rounded-bl-sm border border-gray-200'
+                    : 'bg-[var(--color-surface-muted)] text-[var(--color-text-primary)] rounded-bl-sm border border-[var(--color-border)]'
                 }`}
               >
                 {msg.role === 'assistant' ? (
@@ -177,14 +177,14 @@ export default function AIChatPanel({ isOpen, onClose }: { isOpen: boolean; onCl
           {/* Typing indicator */}
           {loading && (
             <div className="flex justify-start">
-              <div className="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 border border-gray-200">
+              <div className="bg-[var(--color-surface-muted)] rounded-2xl rounded-bl-sm px-4 py-3 border border-[var(--color-border)]">
                 <div className="flex items-center gap-2">
                   <div className="flex gap-1">
                     <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '0ms' }} />
                     <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '150ms' }} />
                     <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
-                  <span className="text-xs text-gray-500">Analyzing data...</span>
+                  <span className="text-xs text-[var(--color-text-secondary)]">Analyzing data...</span>
                 </div>
               </div>
             </div>
@@ -194,7 +194,7 @@ export default function AIChatPanel({ isOpen, onClose }: { isOpen: boolean; onCl
         </div>
 
         {/* Input */}
-        <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 bg-gray-50">
+        <form onSubmit={handleSubmit} className="p-4 border-t border-[var(--color-border)] bg-[var(--color-surface-muted)]">
           <div className="flex items-center gap-2">
             <input
               ref={inputRef}
@@ -203,7 +203,7 @@ export default function AIChatPanel({ isOpen, onClose }: { isOpen: boolean; onCl
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about fraud patterns, transactions..."
               disabled={loading}
-              className="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 disabled:opacity-60 transition"
+              className="flex-1 px-4 py-2.5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 disabled:opacity-60 transition"
             />
             <button
               type="submit"

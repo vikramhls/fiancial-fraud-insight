@@ -192,7 +192,7 @@ export default function DashboardPage() {
               <YAxis tick={{ fontSize: 11 }} />
               <Tooltip
                 contentStyle={{
-                  background: 'white',
+                  background: 'var(--color-surface)',
                   border: '1px solid #e2e8f0',
                   borderRadius: '8px',
                   fontSize: '12px',
@@ -231,7 +231,7 @@ export default function DashboardPage() {
               </Pie>
               <Tooltip
                 contentStyle={{
-                  background: 'white',
+                  background: 'var(--color-surface)',
                   border: '1px solid #e2e8f0',
                   borderRadius: '8px',
                   fontSize: '12px',
@@ -270,7 +270,7 @@ export default function DashboardPage() {
               <YAxis tick={{ fontSize: 11 }} />
               <Tooltip
                 contentStyle={{
-                  background: 'white',
+                  background: 'var(--color-surface)',
                   border: '1px solid #e2e8f0',
                   borderRadius: '8px',
                   fontSize: '12px',
@@ -294,7 +294,7 @@ export default function DashboardPage() {
               <YAxis tick={{ fontSize: 11 }} />
               <Tooltip
                 contentStyle={{
-                  background: 'white',
+                  background: 'var(--color-surface)',
                   border: '1px solid #e2e8f0',
                   borderRadius: '8px',
                   fontSize: '12px',

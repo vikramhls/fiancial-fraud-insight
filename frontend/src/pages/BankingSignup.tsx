@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Building2, Lock, Mail, User, ArrowRight } from 'lucide-react';
+import { Building2, Lock, Mail, User, ArrowRight, DollarSign } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function BankingSignup() {
@@ -18,11 +18,15 @@ export default function BankingSignup() {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
+    const initialBalanceStr = formData.get('initialBalance') as string;
+    const initialBalance = initialBalanceStr ? parseFloat(initialBalanceStr) : undefined;
+
     try {
       const response = await api.signup({
         full_name: fullName,
         email: email,
         password: password,
+        initial_balance: initialBalance,
       });
 
       // Store the token
@@ -52,7 +56,7 @@ export default function BankingSignup() {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md animate-fade-in">
-        <div className="bg-white py-8 px-4 shadow-xl shadow-slate-200/50 sm:rounded-2xl sm:px-10 border border-[var(--color-border)]">
+        <div className="bg-[var(--color-surface)] py-8 px-4 shadow-xl shadow-[var(--color-surface)] sm:rounded-2xl sm:px-10 border border-[var(--color-border)]">
           {error && (
             <div className="mb-4 bg-red-50 border-l-4 border-red-500 p-4">
               <p className="text-sm text-red-700">{error}</p>
@@ -117,6 +121,26 @@ export default function BankingSignup() {
             </div>
 
             <div>
+              <label htmlFor="initialBalance" className="block text-sm font-medium text-[var(--color-text-primary)]">
+                Starting Balance (Optional)
+              </label>
+              <div className="mt-1 relative rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <DollarSign className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  id="initialBalance"
+                  name="initialBalance"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="54320.50 (Default)"
+                  className="focus:ring-emerald-500 focus:border-emerald-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-lg py-2.5 border"
+                />
+              </div>
+            </div>
+
+            <div>
               <button
                 type="submit"
                 disabled={loading}
@@ -133,14 +157,14 @@ export default function BankingSignup() {
                 <div className="w-full border-t border-gray-200" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Already have an account?</span>
+                <span className="px-2 bg-[var(--color-surface)] text-[var(--color-text-secondary)]">Already have an account?</span>
               </div>
             </div>
             
             <div className="mt-6 flex flex-col space-y-4">
               <Link 
                 to="/banking/login"
-                className="w-full flex justify-center py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors"
+                className="w-full flex justify-center py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-[var(--color-text-primary)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-muted)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors"
               >
                 Sign in to your account
               </Link>
@@ -149,7 +173,7 @@ export default function BankingSignup() {
                 className="w-full flex justify-center items-center gap-2 py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-emerald-600 bg-emerald-50 hover:bg-emerald-100 transition-colors"
               >
                 <ArrowRight size={16} />
-                Return to FinShield Home
+                Return to FinProtector Home
               </button>
             </div>
           </div>

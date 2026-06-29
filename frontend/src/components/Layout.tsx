@@ -43,7 +43,7 @@ export default function Layout() {
             <Shield size={20} className="text-white" />
           </div>
           <div>
-            <h1 className="text-base font-bold tracking-tight">FinShield AI</h1>
+            <h1 className="text-base font-bold tracking-tight">FinProtector</h1>
             <p className="text-[11px] text-[var(--color-navy-400)] font-medium tracking-wide uppercase">
               Fraud Detection
             </p>
@@ -114,7 +114,7 @@ export default function Layout() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-white truncate">Risk Admin</p>
-              <p className="text-[11px] text-[var(--color-navy-500)]">admin@finshield.ai</p>
+              <p className="text-[11px] text-[var(--color-navy-500)]">admin@finprotector.ai</p>
             </div>
             <LogOut size={14} className="text-[var(--color-navy-500)] hover:text-white" />
           </div>
@@ -124,7 +124,7 @@ export default function Layout() {
       {/* ─── Main Content ─── */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Topbar */}
-        <header className="h-16 flex-shrink-0 flex items-center justify-between px-8 bg-white border-b border-[var(--color-border)]">
+        <header className="h-16 flex-shrink-0 flex items-center justify-between px-8 bg-[var(--color-surface)] border-b border-[var(--color-border)]">
           <div>
             <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
               {pageTitle}

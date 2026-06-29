@@ -118,7 +118,7 @@ export default function AlertsPage() {
                   <p className="text-xs text-[var(--color-text-muted)]">{formatDate(alert.created_at)}</p>
                   {alert.risk_score !== undefined && (
                     <p className={`text-sm font-bold mt-1 ${
-                      alert.risk_score >= 80 ? 'text-red-600' : 'text-amber-600'
+                      alert.risk_score >= 80 ? 'text-[var(--color-text-primary)]' : 'text-amber-600'
                     }`}>
                       Risk: {alert.risk_score.toFixed(1)}
                     </p>
@@ -144,7 +144,7 @@ export default function AlertsPage() {
                         e.stopPropagation();
                         updateMutation.mutate({ id: alert.id, body: { status: 'escalated' } });
                       }}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-rose-50 text-rose-700 text-xs font-medium hover:bg-rose-100 transition-colors border border-rose-200"
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[var(--color-surface-muted)] text-rose-700 text-xs font-medium hover:bg-[var(--color-surface-muted)] transition-colors border border-rose-200"
                     >
                       <ArrowUpCircle size={14} /> Escalate
                     </button>
@@ -156,7 +156,7 @@ export default function AlertsPage() {
                       onChange={(e) => setNoteText(e.target.value)}
                       onClick={(e) => e.stopPropagation()}
                       placeholder="Add investigation notes..."
-                      className="flex-1 px-3 py-2 rounded-lg border border-[var(--color-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                      className="flex-1 px-3 py-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                     />
                     <button
                       onClick={(e) => {
@@ -189,7 +189,7 @@ export default function AlertsPage() {
           <button
             onClick={() => setPage(Math.max(1, page - 1))}
             disabled={page <= 1}
-            className="p-2 rounded-lg hover:bg-white disabled:opacity-30 transition"
+            className="p-2 rounded-lg hover:bg-[var(--color-surface)] disabled:opacity-30 transition"
           >
             <ChevronLeft size={16} />
           </button>
@@ -199,7 +199,7 @@ export default function AlertsPage() {
           <button
             onClick={() => setPage(Math.min(data.total_pages, page + 1))}
             disabled={page >= data.total_pages}
-            className="p-2 rounded-lg hover:bg-white disabled:opacity-30 transition"
+            className="p-2 rounded-lg hover:bg-[var(--color-surface)] disabled:opacity-30 transition"
           >
             <ChevronRight size={16} />
           </button>

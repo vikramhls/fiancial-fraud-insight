@@ -9,7 +9,7 @@ import math
 import json
 
 from app.database import get_db
-from app.models import Transaction, FraudPrediction, Alert, TransactionStatus, AlertSeverity
+from app.models import Transaction, FraudPrediction, Alert, TransactionStatus, AlertSeverity, User
 from app.schemas import TransactionCreate, TransactionResponse, TransactionDetail
 from app.services.fraud_detection import fraud_detector
 
@@ -60,6 +60,13 @@ async def create_transaction(payload: TransactionCreate, db: AsyncSession = Depe
 
         txn.risk_score = result["risk_score"]
         txn.status = result["classification"]
+
+        # Deduct balance if safe
+        if result["classification"] == "safe":
+            user_result = await db.execute(select(User).where(User.id == payload.user_id))
+            user = user_result.scalar_one_or_none()
+            if user:
+                user.account_balance = max(0.0, user.account_balance - payload.amount)
 
         # Save fraud prediction with insights
         pred = FraudPrediction(

@@ -50,6 +50,7 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     full_name = Column(String, nullable=False)
     role = Column(String, default=UserRole.ANALYST)
+    account_balance = Column(Float, default=54320.50)
     created_at = Column(DateTime, default=utcnow)
 
     audit_logs = relationship("AuditLog", back_populates="user")

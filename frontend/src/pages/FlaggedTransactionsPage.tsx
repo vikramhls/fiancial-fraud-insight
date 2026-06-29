@@ -87,8 +87,8 @@ export default function FlaggedTransactionsPage() {
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
       .replace(/`(.*?)`/g, '<code class="px-1 py-0.5 rounded bg-indigo-50 text-xs font-mono text-indigo-700">$1</code>')
       .replace(/^- (.*)/gm, '<li class="ml-4 list-disc text-sm leading-relaxed">$1</li>')
-      .replace(/^### (.*)/gm, '<h4 class="font-bold text-sm mt-3 mb-1 text-gray-900">$1</h4>')
-      .replace(/^## (.*)/gm, '<h3 class="font-bold text-base mt-4 mb-1 text-gray-900">$1</h3>')
+      .replace(/^### (.*)/gm, '<h4 class="font-bold text-sm mt-3 mb-1 text-[var(--color-text-primary)]">$1</h4>')
+      .replace(/^## (.*)/gm, '<h3 class="font-bold text-base mt-4 mb-1 text-[var(--color-text-primary)]">$1</h3>')
       .replace(/\n/g, '<br/>');
   };
 
@@ -146,7 +146,7 @@ export default function FlaggedTransactionsPage() {
             >
               {/* Main Row */}
               <div
-                className="p-5 cursor-pointer hover:bg-gray-50/50 transition-colors"
+                className="p-5 cursor-pointer hover:bg-[var(--color-surface-muted)] transition-colors"
                 onClick={() => toggleExpand(txn.id)}
               >
                 <div className="flex items-center justify-between">
@@ -166,7 +166,7 @@ export default function FlaggedTransactionsPage() {
                           {formatCurrency(txn.amount)}
                         </span>
                         <StatusBadge status={txn.status} />
-                        <span className="px-2 py-0.5 rounded bg-gray-100 text-[10px] font-medium text-gray-600">
+                        <span className="px-2 py-0.5 rounded bg-gray-100 text-[10px] font-medium text-[var(--color-text-secondary)]">
                           {txn.transaction_type}
                         </span>
                       </div>
@@ -197,7 +197,7 @@ export default function FlaggedTransactionsPage() {
 
               {/* Expanded Details */}
               {expandedId === txn.id && (
-                <div className="border-t border-[var(--color-border)] bg-gray-50/50 animate-fade-in">
+                <div className="border-t border-[var(--color-border)] bg-[var(--color-surface-muted)] animate-fade-in">
                   {/* ML Insights */}
                   {txn.insights.length > 0 && (
                     <div className="p-5 border-b border-[var(--color-border)]">
@@ -209,7 +209,7 @@ export default function FlaggedTransactionsPage() {
                         {txn.insights.map((insight) => (
                           <div
                             key={insight.id}
-                            className="p-3 rounded-lg bg-white border border-gray-200 flex items-start gap-3"
+                            className="p-3 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)] flex items-start gap-3"
                           >
                             <SeverityBadge severity={insight.severity as any} />
                             <div>
@@ -232,21 +232,21 @@ export default function FlaggedTransactionsPage() {
                       Balance Movement
                     </h4>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      <div className="p-3 rounded-lg bg-white border border-gray-200">
+                      <div className="p-3 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)]">
                         <p className="text-[11px] text-[var(--color-text-muted)]">Sender Before</p>
                         <p className="text-sm font-bold mt-0.5">{formatCurrency(txn.old_balance_org)}</p>
                       </div>
-                      <div className="p-3 rounded-lg bg-white border border-gray-200">
+                      <div className="p-3 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)]">
                         <p className="text-[11px] text-[var(--color-text-muted)]">Sender After</p>
                         <p className={`text-sm font-bold mt-0.5 ${txn.new_balance_org === 0 ? 'text-red-600' : ''}`}>
                           {formatCurrency(txn.new_balance_org)}
                         </p>
                       </div>
-                      <div className="p-3 rounded-lg bg-white border border-gray-200">
+                      <div className="p-3 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)]">
                         <p className="text-[11px] text-[var(--color-text-muted)]">Receiver Before</p>
                         <p className="text-sm font-bold mt-0.5">{formatCurrency(txn.old_balance_dest)}</p>
                       </div>
-                      <div className="p-3 rounded-lg bg-white border border-gray-200">
+                      <div className="p-3 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)]">
                         <p className="text-[11px] text-[var(--color-text-muted)]">Receiver After</p>
                         <p className="text-sm font-bold mt-0.5">{formatCurrency(txn.new_balance_dest)}</p>
                       </div>
@@ -283,7 +283,7 @@ export default function FlaggedTransactionsPage() {
                     {aiExplanation[txn.id] && (
                       <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50 border border-indigo-100">
                         <div
-                          className="text-sm text-gray-800 leading-relaxed ai-response-content"
+                          className="text-sm text-[var(--color-text-primary)] leading-relaxed ai-response-content"
                           dangerouslySetInnerHTML={{ __html: renderMarkdown(aiExplanation[txn.id]) }}
                         />
                       </div>
@@ -300,7 +300,7 @@ export default function FlaggedTransactionsPage() {
                   <div className="px-5 pb-5">
                     <button
                       onClick={() => navigate(`/admin/transactions/${txn.id}`)}
-                      className="w-full py-2.5 rounded-lg border border-[var(--color-border)] text-sm font-medium text-[var(--color-text-secondary)] hover:bg-white hover:text-[var(--color-text-primary)] transition-colors"
+                      className="w-full py-2.5 rounded-lg border border-[var(--color-border)] text-sm font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text-primary)] transition-colors"
                     >
                       View Full Transaction Details →
                     </button>
@@ -320,14 +320,14 @@ export default function FlaggedTransactionsPage() {
                 <button
                   onClick={() => setPage(Math.max(1, page - 1))}
                   disabled={page <= 1}
-                  className="p-2 rounded-lg hover:bg-white border border-[var(--color-border)] disabled:opacity-30 transition"
+                  className="p-2 rounded-lg hover:bg-[var(--color-surface)] border border-[var(--color-border)] disabled:opacity-30 transition"
                 >
                   <ChevronLeft size={16} />
                 </button>
                 <button
                   onClick={() => setPage(Math.min(data.total_pages, page + 1))}
                   disabled={page >= data.total_pages}
-                  className="p-2 rounded-lg hover:bg-white border border-[var(--color-border)] disabled:opacity-30 transition"
+                  className="p-2 rounded-lg hover:bg-[var(--color-surface)] border border-[var(--color-border)] disabled:opacity-30 transition"
                 >
                   <ChevronRight size={16} />
                 </button>

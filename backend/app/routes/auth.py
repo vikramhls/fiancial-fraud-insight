@@ -1,5 +1,7 @@
 """FinShield AI - Auth Routes (simplified JWT auth)"""
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer
+from jose import jwt, JWTError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from datetime import datetime, timedelta, timezone
@@ -38,6 +40,7 @@ async def signup(payload: SignupRequest, db: AsyncSession = Depends(get_db)):
         full_name=payload.full_name,
         hashed_password=pwd_context.hash(payload.password),
         role=UserRole.CUSTOMER,
+        account_balance=payload.initial_balance,
     )
     db.add(new_user)
     
@@ -77,12 +80,30 @@ async def login(payload: LoginRequest, db: AsyncSession = Depends(get_db)):
     )
 
 
-@router.get("/me")
-async def get_current_user():
-    """Returns demo user for the prototype."""
-    return {
-        "id": "admin-001",
-        "email": "admin@finshield.ai",
-        "full_name": "Risk Administrator",
-        "role": "admin",
-    }
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
+
+async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)):
+    credentials_exception = HTTPException(
+        status_code=401,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    
+    result = await db.execute(select(User).where(User.id == user_id))
+    user = result.scalar_one_or_none()
+    if user is None:
+        raise credentials_exception
+    return user
+
+
+@router.get("/me", response_model=UserResponse)
+async def read_users_me(current_user: User = Depends(get_current_user)):
+    """Returns the current logged-in user."""
+    return current_user

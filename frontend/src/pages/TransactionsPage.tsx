@@ -117,7 +117,7 @@ export default function TransactionsPage() {
               <input
                 type="number" min="0" max="100" value={minRisk}
                 onChange={(e) => { setMinRisk(e.target.value); setPage(1); }}
-                className="w-full mt-1 px-3 py-2 rounded-lg border border-[var(--color-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                className="w-full mt-1 px-3 py-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                 placeholder="0"
               />
             </div>
@@ -126,7 +126,7 @@ export default function TransactionsPage() {
               <input
                 type="number" min="0" max="100" value={maxRisk}
                 onChange={(e) => { setMaxRisk(e.target.value); setPage(1); }}
-                className="w-full mt-1 px-3 py-2 rounded-lg border border-[var(--color-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                className="w-full mt-1 px-3 py-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                 placeholder="100"
               />
             </div>
@@ -135,7 +135,7 @@ export default function TransactionsPage() {
               <input
                 type="number" min="0" value={minAmount}
                 onChange={(e) => { setMinAmount(e.target.value); setPage(1); }}
-                className="w-full mt-1 px-3 py-2 rounded-lg border border-[var(--color-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                className="w-full mt-1 px-3 py-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                 placeholder="$0"
               />
             </div>
@@ -144,7 +144,7 @@ export default function TransactionsPage() {
               <input
                 type="number" min="0" value={maxAmount}
                 onChange={(e) => { setMaxAmount(e.target.value); setPage(1); }}
-                className="w-full mt-1 px-3 py-2 rounded-lg border border-[var(--color-border)] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                className="w-full mt-1 px-3 py-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                 placeholder="No limit"
               />
             </div>
@@ -207,7 +207,7 @@ export default function TransactionsPage() {
                       <td className="px-4 py-3 font-semibold">{formatCurrency(txn.amount)}</td>
                       <td className="px-4 py-3 text-[var(--color-text-secondary)]">{txn.country}</td>
                       <td className="px-4 py-3">
-                        <span className="px-2 py-0.5 rounded bg-gray-100 text-[11px] font-medium text-gray-600">
+                        <span className="px-2 py-0.5 rounded bg-[var(--color-surface-muted)] text-[11px] font-medium text-[var(--color-text-primary)]">
                           {txn.transaction_type}
                         </span>
                       </td>
@@ -248,7 +248,7 @@ export default function TransactionsPage() {
                 <button
                   onClick={() => setPage(Math.max(1, page - 1))}
                   disabled={page <= 1}
-                  className="p-2 rounded-lg hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition"
+                  className="p-2 rounded-lg hover:bg-[var(--color-surface)] disabled:opacity-30 disabled:cursor-not-allowed transition"
                 >
                   <ChevronLeft size={16} />
                 </button>
@@ -262,7 +262,7 @@ export default function TransactionsPage() {
                       className={`w-8 h-8 rounded-lg text-xs font-medium transition
                         ${p === page
                           ? 'bg-blue-600 text-white shadow-sm'
-                          : 'text-[var(--color-text-secondary)] hover:bg-white'
+                          : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]'
                         }`}
                     >
                       {p}
@@ -272,7 +272,7 @@ export default function TransactionsPage() {
                 <button
                   onClick={() => setPage(Math.min(data.total_pages, page + 1))}
                   disabled={page >= data.total_pages}
-                  className="p-2 rounded-lg hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition"
+                  className="p-2 rounded-lg hover:bg-[var(--color-surface)] disabled:opacity-30 disabled:cursor-not-allowed transition"
                 >
                   <ChevronRight size={16} />
                 </button>

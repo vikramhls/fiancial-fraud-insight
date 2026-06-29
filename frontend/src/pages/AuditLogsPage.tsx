@@ -93,19 +93,19 @@ export default function AuditLogsPage() {
 
           <div className="space-y-3 stagger-children">
             {data.items.map((log: AuditLog) => {
-              const actionClass = ACTION_COLORS[log.action] || 'bg-gray-50 border-gray-200';
+              const actionClass = ACTION_COLORS[log.action] || 'bg-[var(--color-surface-muted)] borderbg-[var(--color-surface-muted)]';
               return (
                 <div key={log.id} className="relative pl-14">
                   {/* Timeline dot */}
-                  <div className={`absolute left-4 top-4 w-5 h-5 rounded-full border-2 ${actionClass} flex items-center justify-center z-10 bg-white`}>
-                    {ACTION_ICONS[log.action] || <RefreshCw size={10} className="text-gray-400" />}
+                  <div className={`absolute left-4 top-4 w-5 h-5 rounded-full border-2 ${actionClass} flex items-center justify-center z-10 bg-[var(--color-surface)]`}>
+                    {ACTION_ICONS[log.action] || <RefreshCw size={10} className="text-[var(--color-text-primary)]" />}
                   </div>
 
                   <div className={`card p-4 border ${actionClass} hover:shadow-md transition-all`}>
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs font-semibold px-2 py-0.5 rounded bg-white border border-[var(--color-border)] text-[var(--color-text-secondary)]">
+                          <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-secondary)]">
                             {log.action.replace(/_/g, ' ').toUpperCase()}
                           </span>
                           {log.user_id && (
@@ -141,7 +141,7 @@ export default function AuditLogsPage() {
           <button
             onClick={() => setPage(Math.max(1, page - 1))}
             disabled={page <= 1}
-            className="p-2 rounded-lg hover:bg-white disabled:opacity-30 transition"
+            className="p-2 rounded-lg hover:bg-[var(--color-surface)] disabled:opacity-30 transition"
           >
             <ChevronLeft size={16} />
           </button>
@@ -151,7 +151,7 @@ export default function AuditLogsPage() {
           <button
             onClick={() => setPage(Math.min(data.total_pages, page + 1))}
             disabled={page >= data.total_pages}
-            className="p-2 rounded-lg hover:bg-white disabled:opacity-30 transition"
+            className="p-2 rounded-lg hover:bg-[var(--color-surface)] disabled:opacity-30 transition"
           >
             <ChevronRight size={16} />
           </button>

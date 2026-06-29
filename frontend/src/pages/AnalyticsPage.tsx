@@ -7,7 +7,7 @@ import { LoadingSpinner } from '../components/Feedback';
 import { api, type CountryFraud } from '../services/api';
 
 const TOOLTIP_STYLE = {
-  background: 'white',
+  background: 'var(--color-surface)',
   border: '1px solid #e2e8f0',
   borderRadius: '8px',
   fontSize: '12px',

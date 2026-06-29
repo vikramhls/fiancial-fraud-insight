@@ -115,6 +115,10 @@ class FraudDetector:
         risk_score = prob * 100
 
         # ── Business Rules ──
+        # Catch near-drains (fraudsters leaving a tiny amount like $1 to bypass zero-balance checks)
+        if drain_ratio > 0.90 and raw_new_bal_org <= 5.0:
+            risk_score = max(risk_score, 85.0)
+
         if drain_ratio > 0.95 and raw_amount > 20000:
             risk_score = max(risk_score, 50.0)
 

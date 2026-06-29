@@ -179,6 +179,7 @@ export const api = {
   // Auth
   login: (data: any) => postJson<any>('/auth/login', data),
   signup: (data: any) => postJson<any>('/auth/signup', data),
+  getMe: () => fetchJson<any>('/auth/me'),
 
   // Dashboard
   getDashboardMetrics: () => fetchJson<DashboardMetrics>('/analytics/dashboard'),

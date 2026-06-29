@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building2, ArrowRightLeft, CreditCard, PieChart, Bell, User, Send, ShieldAlert, CheckCircle2, AlertTriangle, XCircle, ArrowLeft } from 'lucide-react';
 import { api, type TransactionCreate } from '../services/api';
@@ -6,6 +6,28 @@ import { api, type TransactionCreate } from '../services/api';
 export default function BankingDashboard() {
   const navigate = useNavigate();
   const [balance, setBalance] = useState(54320.50);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await api.getMe();
+        setUser(userData);
+        setBalance(userData.account_balance);
+      } catch (err) {
+        console.error("Failed to fetch user", err);
+        // Fallback to localStorage if API fails (or if using default mock)
+        const localUser = JSON.parse(localStorage.getItem('user') || '{}');
+        if (localUser.full_name) {
+          setUser(localUser);
+          if (localUser.account_balance !== undefined) {
+            setBalance(localUser.account_balance);
+          }
+        }
+      }
+    };
+    fetchUser();
+  }, []);
   
   // Form State
   const [amount, setAmount] = useState('');
@@ -30,11 +52,11 @@ export default function BankingDashboard() {
     const randomOldBalanceDest = Math.floor(Math.random() * 50000);
     const mockCountries = ["United States", "United Kingdom", "Germany", "France", "India", "Brazil", "Nigeria"];
     const randomCountry = mockCountries[Math.floor(Math.random() * mockCountries.length)];
-    const randomUserId = `USR-${Math.floor(Math.random() * 200).toString().padStart(5, '0')}`;
+    const txnUserId = user?.id || `USR-${Math.floor(Math.random() * 200).toString().padStart(5, '0')}`;
     const randomDeviceId = `DEV-${Math.floor(Math.random() * 50).toString().padStart(4, '0')}`;
 
     const payload: TransactionCreate = {
-      user_id: randomUserId,
+      user_id: txnUserId,
       amount: numAmount,
       currency: 'USD',
       country: randomCountry,
@@ -74,10 +96,10 @@ export default function BankingDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded bg-white/20 flex items-center justify-center">
+              <div className="w-8 h-8 rounded bg-[var(--color-surface)]/20 flex items-center justify-center">
                 <Building2 size={20} className="text-white" />
               </div>
-              <span className="font-bold text-lg tracking-tight">Apex Bank</span>
+              <span className="font-bold text-lg tracking-tight">FinProtector</span>
             </div>
             
             <div className="hidden md:flex space-x-8">
@@ -95,7 +117,7 @@ export default function BankingDashboard() {
                 <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center border border-emerald-500">
                   <User size={16} />
                 </div>
-                <span className="text-sm font-medium">Hello, John</span>
+                <span className="text-sm font-medium">Hello, {user?.full_name || 'John'}</span>
               </div>
             </div>
           </div>
@@ -109,7 +131,7 @@ export default function BankingDashboard() {
         <div className="mb-6 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between shadow-sm animate-fade-in">
           <div className="flex items-center gap-2 text-blue-800">
             <ShieldAlert size={18} />
-            <span className="text-sm font-medium">FinShield AI Demo Mode Active. Transactions sent from this page are routed through the ML Fraud Pipeline.</span>
+            <span className="text-sm font-medium">FinProtector Demo Mode Active. Transactions sent from this page are routed through the ML Fraud Pipeline.</span>
           </div>
           <button 
             onClick={() => navigate('/admin')}
@@ -124,33 +146,33 @@ export default function BankingDashboard() {
           {/* ─── Left Column: Accounts ─── */}
           <div className="lg:col-span-1 space-y-6">
             {/* Balance Card */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="bg-[var(--color-surface)] rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="p-6 bg-gradient-to-br from-emerald-600 to-teal-800 text-white">
                 <p className="text-emerald-100 text-sm font-medium mb-1">Available Balance</p>
                 <h2 className="text-4xl font-bold tracking-tight">${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h2>
                 <p className="text-emerald-200 text-xs mt-4">Premium Checking ...4928</p>
               </div>
-              <div className="bg-white p-4 grid grid-cols-2 gap-4 divide-x divide-gray-100">
-                <button onClick={() => alert('UI Mockup: Use the form on the right to transfer')} className="flex flex-col items-center justify-center gap-2 text-gray-600 hover:text-emerald-600 transition-colors py-2">
+              <div className="bg-[var(--color-surface)] p-4 grid grid-cols-2 gap-4 divide-x divide-gray-100">
+                <button onClick={() => alert('UI Mockup: Use the form on the right to transfer')} className="flex flex-col items-center justify-center gap-2 text-[var(--color-text-secondary)] hover:text-emerald-600 transition-colors py-2">
                   <ArrowRightLeft size={20} />
                   <span className="text-xs font-medium">Transfer</span>
                 </button>
-                <button onClick={() => navigate('/admin')} className="flex flex-col items-center justify-center gap-2 text-gray-600 hover:text-emerald-600 transition-colors py-2">
+                <button onClick={() => navigate('/admin')} className="flex flex-col items-center justify-center gap-2 text-[var(--color-text-secondary)] hover:text-emerald-600 transition-colors py-2">
                   <PieChart size={20} />
                   <span className="text-xs font-medium">Analytics</span>
                 </button>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-              <h3 className="font-bold text-gray-900 mb-4">Quick Actions</h3>
+            <div className="bg-[var(--color-surface)] rounded-2xl shadow-sm border border-gray-100 p-6">
+              <h3 className="font-bold text-[var(--color-text-primary)] mb-4">Quick Actions</h3>
               <div className="space-y-3">
                 <button onClick={() => alert('UI Mockup: Quick actions disabled in demo')} className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-emerald-500 hover:bg-emerald-50 transition-colors group">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded bg-gray-100 group-hover:bg-white text-gray-600 group-hover:text-emerald-600">
+                    <div className="p-2 rounded bg-[var(--color-surface-muted)] group-hover:bg-[var(--color-surface)] text-[var(--color-text-secondary)] group-hover:text-emerald-600">
                       <CreditCard size={18} />
                     </div>
-                    <span className="text-sm font-medium text-gray-700">Pay Credit Card</span>
+                    <span className="text-sm font-medium text-[var(--color-text-primary)]">Pay Credit Card</span>
                   </div>
                 </button>
               </div>
@@ -159,8 +181,8 @@ export default function BankingDashboard() {
 
           {/* ─── Right Column: Transfer Form ─── */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <div className="bg-[var(--color-surface)] rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+              <h2 className="text-xl font-bold text-[var(--color-text-primary)] mb-6 flex items-center gap-2">
                 <Send size={20} className="text-emerald-600" />
                 Transfer Funds
               </h2>
@@ -199,11 +221,11 @@ export default function BankingDashboard() {
               )}
 
               {result === 'fraud' && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3 animate-slide-in">
+                <div className="mb-6 p-4 bg-red-900/10 border border-red-500/20 rounded-xl flex items-start gap-3 animate-slide-in">
                   <XCircle className="text-red-600 shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="text-red-800 font-bold">Transfer Blocked</h4>
-                    <div className="text-red-700 text-sm mt-1">
+                    <h4 className="text-[var(--color-text-primary)] font-bold">Transfer Blocked</h4>
+                    <div className="text-[var(--color-text-secondary)] text-sm mt-1">
                       <p>This transaction was intercepted by our fraud prevention system due to highly suspicious patterns. Please contact support.</p>
                       <div className="mt-2 text-xs bg-red-100/50 p-2 rounded">
                         Raw ML Score: {rawRiskScore?.toFixed(2)} <br/>
@@ -217,13 +239,13 @@ export default function BankingDashboard() {
               <form onSubmit={handleTransfer} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">From Account</label>
-                    <select className="w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 bg-gray-50 border p-2.5 text-gray-700">
+                    <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">From Account</label>
+                    <select className="w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 bg-[var(--color-surface-muted)] border p-2.5 text-[var(--color-text-primary)]">
                       <option>Premium Checking (...4928) - ${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">To Recipient</label>
+                    <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">To Recipient</label>
                     <input 
                       type="text" 
                       placeholder="Account Number or Email"
@@ -236,10 +258,10 @@ export default function BankingDashboard() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Amount (USD)</label>
+                  <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">Amount (USD)</label>
                   <div className="relative rounded-lg shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <span className="text-gray-500 sm:text-lg">$</span>
+                      <span className="text-[var(--color-text-secondary)] sm:text-lg">$</span>
                     </div>
                     <input
                       type="number"
@@ -248,7 +270,7 @@ export default function BankingDashboard() {
                       value={amount}
                       onChange={(e) => setAmount(e.target.value)}
                       required
-                      className="focus:ring-emerald-500 focus:border-emerald-500 block w-full pl-8 pr-12 sm:text-lg border-gray-300 rounded-lg py-3 border font-semibold text-gray-900"
+                      className="focus:ring-emerald-500 focus:border-emerald-500 block w-full pl-8 pr-12 sm:text-lg border-gray-300 rounded-lg py-3 border font-semibold text-[var(--color-text-primary)]"
                       placeholder="0.00"
                     />
                   </div>
@@ -261,7 +283,7 @@ export default function BankingDashboard() {
                   <button 
                     type="button" 
                     onClick={() => navigate('/')}
-                    className="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center gap-1"
+                    className="text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] flex items-center gap-1"
                   >
                     <ArrowLeft size={16} /> Cancel
                   </button>

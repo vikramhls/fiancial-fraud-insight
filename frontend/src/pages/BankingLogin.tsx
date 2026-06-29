@@ -50,7 +50,7 @@ export default function BankingLogin() {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md animate-fade-in">
-        <div className="bg-white py-8 px-4 shadow-xl shadow-slate-200/50 sm:rounded-2xl sm:px-10 border border-[var(--color-border)]">
+        <div className="bg-[var(--color-surface)] py-8 px-4 shadow-xl shadow-[var(--color-surface)] sm:rounded-2xl sm:px-10 border border-[var(--color-border)]">
           {error && (
             <div className="mb-4 bg-red-50 border-l-4 border-red-500 p-4">
               <p className="text-sm text-red-700">{error}</p>
@@ -133,14 +133,14 @@ export default function BankingLogin() {
                 <div className="w-full border-t border-gray-200" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">New to Apex Global?</span>
+                <span className="px-2 bg-[var(--color-surface)] text-[var(--color-text-secondary)]">New to Apex Global?</span>
               </div>
             </div>
             
             <div className="mt-6 flex flex-col space-y-4">
               <Link 
                 to="/banking/signup"
-                className="w-full flex justify-center py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors"
+                className="w-full flex justify-center py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-[var(--color-text-primary)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-muted)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors"
               >
                 Create an account
               </Link>
@@ -151,7 +151,7 @@ export default function BankingLogin() {
                 className="w-full flex justify-center items-center gap-2 py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-emerald-600 bg-emerald-50 hover:bg-emerald-100 transition-colors"
               >
                 <ArrowRight size={16} />
-                Return to FinShield Home
+                Return to FinProtector Home
               </button>
             </div>
           </div>
